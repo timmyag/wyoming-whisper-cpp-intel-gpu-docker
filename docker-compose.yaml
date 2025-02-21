@@ -1,0 +1,29 @@
+services:
+  whisper-cpp:
+    build:
+      context: .
+      args:
+        - WHISPER_CPP_VERSION=1.7.4
+        # 2025.0.2 seems to have a 50% performance regression
+        - IMAGE=intel/oneapi:2025.0.1-0-devel-ubuntu24.04
+    container_name: whisper-cpp
+    restart: unless-stopped
+    # Change user to the one that will run the container
+    user: 1000:1000
+    group_add:
+      - "107"
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 7891:7891
+    volumes:
+      - type: bind
+    # Change to directory that will store model files
+        source: /path/to/models
+        target: /models
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    environment:
+    # Tested to work well on A380, takes ~1 second to process a request after the initial warm-up request
+      - MODEL=large-v2
+networks: {}

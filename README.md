@@ -1,0 +1,26 @@
+# Wyoming Whisper.cpp for Intel GPUs in Docker
+
+Run an Intel GPU-accelerated 
+[Wyoming protocol](https://github.com/rhasspy/wyoming) speech-to-text service
+for your [Home Asssistant](https://github.com/home-assistant/core) in Docker.
+
+Utilizes [whisper.cpp](https://github.com/ggerganov/whisper.cpp) and 
+[Wyoming Whisper API client](https://github.com/ser/wyoming-whisper-api-client).
+
+Tested on an Intel Arc A380.
+
+## Installation
+
+- Open the `docker-compose.yaml` and change the necessary values like user and
+  path.
+- Install by running `docker compose up`.
+
+## Usage
+
+Add to your Home Asssistant by adding the Wyoming Protocol integration by entering your host IP (`127.0.0.1` if you run the container on the same host and HA is in a container too) and port `7891`.
+
+After each restart of the STT container, the first request will quite a bit of time, but subsequent ones will be significantly faster.
+
+## Changing model
+
+By default the container is set to use `large-v2`, but you are free to set `MODEL` environment variable to [any supported model](https://github.com/ggerganov/whisper.cpp/blob/d682e150908e10caa4c15883c633d7902d385237/models/download-ggml-model.sh#L28).
