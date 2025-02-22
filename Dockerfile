@@ -2,7 +2,7 @@ ARG IMAGE
 FROM ${IMAGE}
 ARG WHISPER_CPP_VERSION
 ENV SYCL_CACHE_PERSISTENT=1
-ENV SYCL_CACHE_DIR=/model/sycl_cache
+ENV SYCL_CACHE_DIR=/models/sycl_cache
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
