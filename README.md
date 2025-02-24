@@ -12,7 +12,7 @@ Tested on an Intel Arc A380.
 ## Installation
 
 - Open the `docker-compose.yaml` and change the necessary values like user and
-  path.
+  path, as well as ensure the `group_add` matches your `render` group id.
 - Install by running `docker compose up`.
 
 ## Usage

@@ -11,6 +11,8 @@ services:
     # Change user to the one that will run the container
     user: 1000:1000
     group_add:
+    # Change this number to match your "render" host group id
+    # You can get the id number by running: getent group render
       - "107"
     security_opt:
       - no-new-privileges:true
@@ -18,11 +20,11 @@ services:
       - 7891:7891
     volumes:
       - type: bind
-    # Change to directory that will store model files
+    # Change to the directory that will store model files
         source: /path/to/models
         target: /models
     devices:
-      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri:/dev/dri
     environment:
     # Tested to work well on A380, takes ~1 second to process a request after the initial warm-up request
       - MODEL=large-v2
