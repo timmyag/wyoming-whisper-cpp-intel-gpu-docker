@@ -21,6 +21,19 @@ Add to your Home Asssistant by adding the Wyoming Protocol integration by enteri
 
 After each restart of the STT container, the first request will quite a bit of time, but subsequent ones will be significantly faster.
 
+## Improving accuracy
+
+To improve accuracy, especially of difficult, uncommon words, you may use the initial prompt option.
+In the `docker-compose.yaml` file, simply change the value of
+```
+- PROMPT=""
+```
+It can be words that are common in your commands, words that whisper.cpp is having difficulty understanding, or some brief instructions.
+For example:
+```
+- PROMPT="turn off turn on close stop play run set timer cancel temperature degrees weather tv lights lamp curtains boiler thermostat AC intercom rooms bedroom kitchen entryway corridor living room gym control smart devices smart home"
+```
+
 ## Changing model
 
 By default the container is set to use `large-v2`, but you are free to set `MODEL` environment variable to [any supported model](https://github.com/ggerganov/whisper.cpp/blob/d682e150908e10caa4c15883c633d7902d385237/models/download-ggml-model.sh#L28).

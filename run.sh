@@ -2,6 +2,9 @@
 
 set -o pipefail
 
+echo "Extra arguments set to: $EXTRA_ARGS"
+echo "Initial prompt set to: $PROMPT"
+
 if [ -z "$BEAM_SIZE" ]; then
     BEAM_SIZE=5
 fi
@@ -25,5 +28,5 @@ if [ ! -f "$MODEL_FILE" ]; then
     fi
 fi
 
-( cd /data/whisper.cpp && build/bin/whisper-server -bs ${BEAM_SIZE} -m ${MODEL_FILE} --host 127.0.0.1 --port 8910 --suppress-nst ${EXTRA_ARGS} ) &
+( cd /data/whisper.cpp && build/bin/whisper-server -bs ${BEAM_SIZE} -m ${MODEL_FILE} --host 127.0.0.1 --port 8910 --suppress-nst --prompt "$PROMPT" ${EXTRA_ARGS} ) &
 ( cd /data/wyoming-whisper-api-client && script/run --uri tcp://0.0.0.0:7891 --api http://127.0.0.1:8910/inference )
