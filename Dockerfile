@@ -3,6 +3,7 @@ FROM ${IMAGE}
 ARG WHISPER_CPP_VERSION
 ENV SYCL_CACHE_PERSISTENT=1
 ENV SYCL_CACHE_DIR=/models/sycl_cache
+ENV SYCL_DEVICE_ALLOWLIST=BackendName:level_zero
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
