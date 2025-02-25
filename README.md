@@ -12,7 +12,7 @@ Tested on an Intel Arc A380.
 ## Installation
 
 - Open the `docker-compose.yaml` and change the necessary values like user and
-  path
+  path.
 - Ensure the `group_add` matches your `render` group id.
 - Install by running `docker compose up`.
 
@@ -30,9 +30,9 @@ In the `docker-compose.yaml` file, simply change the value of
 - PROMPT=""
 ```
 It can set to words that are common in your commands, words that whisper.cpp is having difficulty understanding, or some brief instructions.
-For example:
+It seems to work best when you just give it all the areas, devices and actions that control them, without any particular structure, like so:
 ```
-- PROMPT="turn off turn on close stop play run set timer cancel temperature degrees weather tv lights lamp curtains boiler thermostat AC intercom rooms bedroom kitchen entryway corridor living room gym control smart devices smart home"
+- PROMPT="turn off turn on close stop play run set timer cancel temperature degrees weather tv lights lamp curtains roomba thermostat AC bedroom kitchen entryway corridor living room gym"
 ```
 
 ## Changing model
