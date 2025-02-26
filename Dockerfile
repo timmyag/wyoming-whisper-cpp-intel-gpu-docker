@@ -1,5 +1,8 @@
-ARG IMAGE
-FROM ${IMAGE}
+ARG BUILD_FROM
+FROM ${BUILD_FROM}
+
+ARG WHISPER_CPP_VERSION
+
 ARG WHISPER_CPP_VERSION
 ENV SYCL_CACHE_PERSISTENT=1
 ENV SYCL_CACHE_DIR=/models/sycl_cache
@@ -7,9 +10,9 @@ ENV SYCL_DEVICE_ALLOWLIST=BackendName:level_zero
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN mkdir -p /data
+RUN mkdir -p /whisper
 
-WORKDIR /data
+WORKDIR /whisper
 
 RUN \
     apt-get update \
@@ -30,7 +33,9 @@ RUN \
     && cmake -B build -DGGML_SYCL=ON -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx -DGGML_SYCL_F16=ON \
     && cmake --build build -j --config Release
 
-COPY run.sh /data
+COPY run.sh /whisper
+
+RUN chmod +x ./run.sh
 
 CMD ./run.sh
 

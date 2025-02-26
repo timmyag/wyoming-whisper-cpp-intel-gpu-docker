@@ -5,7 +5,7 @@ services:
       args:
         - WHISPER_CPP_VERSION=1.7.4
         # 2025.0.2 seems to have a 50% performance regression
-        - IMAGE=intel/oneapi:2025.0.1-0-devel-ubuntu24.04
+        - BUILD_FROM=intel/oneapi:2025.0.1-0-devel-ubuntu24.04
     container_name: whisper-cpp
     restart: unless-stopped
     # Change user to the one that will run the container

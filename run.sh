@@ -29,5 +29,5 @@ if [ ! -f "$MODEL_FILE" ]; then
     fi
 fi
 
-( cd /data/whisper.cpp && build/bin/whisper-server -l ${LANG} -bs ${BEAM_SIZE} -m ${MODEL_FILE} --host 127.0.0.1 --port 8910 --suppress-nst --prompt "$PROMPT" ${EXTRA_ARGS} ) &
-( cd /data/wyoming-whisper-api-client && script/run --uri tcp://0.0.0.0:7891 --api http://127.0.0.1:8910/inference )
+( cd /whisper/whisper.cpp && build/bin/whisper-server -l ${LANG} -bs ${BEAM_SIZE} -m ${MODEL_FILE} --host 127.0.0.1 --port 8910 --suppress-nst --prompt "$PROMPT" ${EXTRA_ARGS} ) &
+( cd /whisper/wyoming-whisper-api-client && script/run --uri tcp://0.0.0.0:7891 --api http://127.0.0.1:8910/inference )
