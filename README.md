@@ -9,6 +9,15 @@ Utilizes [whisper.cpp](https://github.com/ggerganov/whisper.cpp) and
 
 Tested on an Intel Arc A380.
 
+## Hardware requirements
+
+- Intel UHD Graphics for 11th generation Intel processors or newer
+- Intel Iris Xe graphics
+- Intel Arc graphics
+- Intel Server GPU
+- Intel Data Center GPU Flex Series
+- Intel Data Center GPU Max Series
+
 ## Installation
 
 - Open the `docker-compose.yaml` and change the necessary values like user and
