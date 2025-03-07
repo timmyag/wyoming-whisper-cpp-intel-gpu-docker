@@ -1,36 +1,70 @@
 services:
   whisper-cpp:
     build:
-      context: .
+      context: ./whisper-cpp
       args:
         - WHISPER_CPP_VERSION=1.7.4
-        # 2025.0.2 seems to have a 50% performance regression
         - BUILD_FROM=intel/oneapi:2025.0.1-0-devel-ubuntu24.04
-    container_name: whisper-cpp
     restart: unless-stopped
+    depends_on:
+      model-download:
+        condition: service_completed_successfully
     # Change user to the one that will run the container
     user: 1000:1000
     group_add:
-    # Change this number to match your "render" host group id
-    # You can get the id number by running: getent group render
+      # Change this number to match your "render" host group id
+      # You can get the id number by running: getent group render
       - "107"
     security_opt:
       - no-new-privileges:true
-    ports:
-      - 7891:7891
     volumes:
       - type: bind
-    # Change to the directory that will store model files
         source: /path/to/models
         target: /models
+    networks:
+      whisper: {}
+    hostname: whispercpp
     devices:
       - /dev/dri:/dev/dri
     environment:
-    # Tested to work well on A380, takes ~1 second to process a request after the initial warm-up request
-      - BEAM_SIZE=5
-      - LANG=en
-      - MODEL=large-v2
-    # Optional
-      - PROMPT=""
-      - EXTRA_ARGS=
-networks: {}
+      - SYCL_CACHE_PERSISTENT=1
+      - SYCL_CACHE_DIR=/models/sycl_cache
+      - SYCL_DEVICE_ALLOWLIST=BackendName:level_zero
+    command: build/bin/whisper-server -l ${LANG} -bs ${BEAM_SIZE} -m
+      /models/ggml-$MODEL.bin --host 0.0.0.0 --port 8910 --suppress-nst --prompt
+      "$PROMPT"
+  wyoming-api:
+    build:
+      context: ./wyoming-api
+      args:
+        - BUILD_FROM=debian:bookworm-slim
+    restart: unless-stopped
+    depends_on:
+      whisper-cpp:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    # Change user to the one that will run the container
+    user: 1000:1000
+    networks:
+      whisper: {}
+    ports:
+      - 7891:7891
+    command: script/run --uri tcp://0.0.0.0:7891 --api http://whispercpp:8910/inference
+  model-download:
+    security_opt:
+      - no-new-privileges:true
+    user: 1000:1000
+    build:
+      context: ./model-download
+    volumes:
+      - type: bind
+        source: /path/to/models
+        target: /models
+    restart: no
+    networks:
+      whisper: {}
+    environment:
+      - MODEL=${MODEL}
+networks:
+  whisper: {}
