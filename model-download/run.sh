@@ -3,7 +3,7 @@
 set -o pipefail
 
 if [ ! -f "/models/download-ggml-model.sh" ]; then
-    wget https://raw.githubusercontent.com/ggerganov/whisper.cpp/refs/heads/master/models/download-ggml-model.sh && chmod +x /models/download-ggml-model.sh
+    wget https://raw.githubusercontent.com/ggerganov/whisper.cpp/refs/heads/master/models/download-ggml-model.sh -O /models/download-ggml-model.sh && chmod +x /models/download-ggml-model.sh
 fi
 
 if [ -z "$MODEL" ]; then
