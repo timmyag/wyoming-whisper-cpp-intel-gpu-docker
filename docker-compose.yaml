@@ -14,7 +14,7 @@ services:
     group_add:
       # Change this number to match your "render" host group id
       # You can get the id number by running: getent group render
-      - "107"
+      - "992"
     security_opt:
       - no-new-privileges:true
     volumes:
